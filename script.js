@@ -57,7 +57,7 @@ function checkOrientation()
   if (window.innerHeight > window.innerWidth)
   {
     document.getElementById("gameContainer").style.display = "none";
-    alert("Please rotate your device to landscape mode to play the game.");
+    alert("گوشیو افقی بگیر پیلیز :>");
   } else
   {
     document.getElementById("gameContainer").style.display = "inline-block";
