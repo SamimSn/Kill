@@ -38,16 +38,16 @@ let lastTime = 0; // Time for animation
 const collisionSound = new Audio("collision-sound.mp3"); // Path to your sound file
 
 // Add a cooldown time (in milliseconds)
-const cooldownTime = 200; // 500ms delay between shots
-let lastFireTime = 0;
+// const cooldownTime = 100; // 100ms delay between shots
+// let lastFireTime = 0;
 
 canvas.addEventListener("click", (event) => {
-  const currentTime = Date.now();
-  if (currentTime - lastFireTime >= cooldownTime) {
+  // const currentTime = Date.now();
+  // if (currentTime - lastFireTime >= cooldownTime) {
     fireBullet(event);
     rotateGun(event);
-    lastFireTime = currentTime;  // Update the last fire time
-  }
+    // lastFireTime = currentTime;  // Update the last fire time
+  // }
 });
 
 
@@ -136,6 +136,14 @@ function isColliding(a, b)
 // ---- Game Loop ----
 function update(deltaTime)
 {
+  // // Random chance to change direction (you can adjust the probability)
+  // const randomChance = Math.random();
+  // if (randomChance < 0.02) // 2% chance per frame to change direction (can be adjusted)
+  // {
+  //   enemy.speedX = Math.random() < 0.5 ? 6 : -6;  // Randomly change horizontal direction
+  //   enemy.speedY = Math.random() < 0.5 ? 4 : -4;  // Randomly change vertical direction
+  // }
+
   // Move the enemy
   enemy.x += enemy.speedX;
   enemy.y += enemy.speedY;
@@ -170,6 +178,7 @@ function update(deltaTime)
     bullet.y + bullet.height > 0 &&
     bullet.y < canvas.height);
 }
+
 
 // Draw everything on the canvas
 function draw()
