@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gun Shooter Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>Gun Shooter</h1>
+  <p>Click anywhere in the game area to fire a bullet at the moving enemy!</p>
+
+  <div id="gameContainer">
+    <canvas id="gameCanvas" width="800" height="500"></canvas>
+    <div id="gun">
+      <img id="gun-image" src="rifle.png" alt="Gun" />
+    </div>
+  </div>
+
+  <div id="scoreContainer">Score: <span id="score">0</span></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

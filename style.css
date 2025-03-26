@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: sans-serif;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+#gameContainer {
+  position: relative;
+  display: inline-block;
+}
+
+#gameCanvas {
+  background-color: #ffffff;
+  border: 2px solid #000;
+  display: block;
+  margin: 0 auto;
+}
+
+#scoreContainer {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+#gun {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform-origin: 50% 50%; /* Pivot point is at the right end of the gun */
+  transform: rotate(-45deg); /* Initial rotation */
+  transition: transform 0.1s ease-out;
+  margin-left: -50px; /* Offsetting gun to center it properly */
+  width: 100px; /* Adjust width based on the gun image */
+  height: auto;
+}
+
+#gun-image {
+  width: 60%;
+  height: auto;
+}
