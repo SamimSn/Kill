@@ -21,8 +21,8 @@ enemyImage.src = "enemy.png"; // Load the enemy image
 let enemy = {
   x: 100,
   y: 100,
-  width: 100,
-  height: 100,
+  width: 70,
+  height: 70,
   speedX: 6, // horizontal speed
   speedY: 4, // vertical speed
 };
