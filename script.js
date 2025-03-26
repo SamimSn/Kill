@@ -1,57 +1,50 @@
-// ---- Global Variables & Setup ----
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 const scoreEl = document.getElementById("score");
 let score = 0;
 
-// Gun container
-const gunContainer = document.getElementById("gun"); // Gun container element
-const gunImage = document.getElementById("gun-image"); // Gun image element
 
-// Bullet image
+const gunContainer = document.getElementById("gun");
+const gunImage = document.getElementById("gun-image");
+
+
 const bulletImage = new Image();
-bulletImage.src = "bullet.png"; // Load the bullet image
+bulletImage.src = "bullet.png";
 
-// Enemy image
+
 const enemyImage = new Image();
-enemyImage.src = "enemy.png"; // Load the enemy image
+enemyImage.src = "enemy.png";
 
-// Game objects
+
 let enemy = {
   x: 100,
   y: 100,
   width: 70,
   height: 70,
-  speedX: 6, // horizontal speed
-  speedY: 4, // vertical speed
+  speedX: 6,
+  speedY: 4,
 };
 
-let bullets = []; // Array to hold the bullets
-let gunAngle = 0; // Variable to store the angle of the gun
-let lastClickX = 0; // Last mouse X position
-let lastClickY = 0; // Last mouse Y position
+let bullets = [];
+let gunAngle = 0;
+let lastClickX = 0;
+let lastClickY = 0;
 
-let lastTime = 0; // Time for animation
+let lastTime = 0;
 
-// Load collision sound
-const collisionSound = new Audio("collision-sound.mp3"); // Path to your sound file
 
-// Add a cooldown time (in milliseconds)
-// const cooldownTime = 100; // 100ms delay between shots
-// let lastFireTime = 0;
+const collisionSound = new Audio("collision-sound.mp3");
 
-canvas.addEventListener("click", (event) => {
-  // const currentTime = Date.now();
-  // if (currentTime - lastFireTime >= cooldownTime) {
-    fireBullet(event);
-    rotateGun(event);
-    // lastFireTime = currentTime;  // Update the last fire time
-  // }
+canvas.addEventListener("click", (event) =>
+{
+  fireBullet(event);
+  rotateGun(event);
 });
 
 
-// Check for landscape orientation
+
 function checkOrientation()
 {
   if (window.innerHeight > window.innerWidth)
@@ -64,13 +57,13 @@ function checkOrientation()
   }
 }
 
-// Listen for orientation changes
+
 window.addEventListener("orientationchange", checkOrientation);
 
-// Initial check when the page loads
+
 checkOrientation();
 
-// ---- Functions ----
+
 
 function fireBullet(event)
 {
@@ -79,13 +72,13 @@ function fireBullet(event)
   const mouseY = event.clientY - rect.top;
 
   const startX = canvas.width / 2;
-  const startY = canvas.height - 50; // Starting point of the bullet (bottom-center)
+  const startY = canvas.height - 50;
 
-  const angle = Math.atan2(mouseY - startY, mouseX - startX); // Calculate angle
+  const angle = Math.atan2(mouseY - startY, mouseX - startX);
 
-  const speed = 10;  // Bullet speed
+  const speed = 10;
 
-  // Velocity in X and Y directions
+
   const vx = Math.cos(angle) * speed;
   const vy = Math.sin(angle) * speed;
 
@@ -108,14 +101,14 @@ function rotateGun(event)
   const gunX = canvas.width / 2;
   const gunY = canvas.height - 50;
 
-  // Calculate the angle between the gun and the clicked position
+
   const angle = Math.atan2(mouseY - gunY, mouseX - gunX);
 
-  // Set the rotation for the gun container
+
   gunContainer.style.transform = `rotate(${angle + 45}rad)`;
 }
 
-// Collision detection function
+
 function isColliding(a, b)
 {
   if (a.x < b.x + b.width &&
@@ -125,30 +118,21 @@ function isColliding(a, b)
   {
     if (!collisionSound.paused)
     {
-      collisionSound.currentTime = 0; // Reset sound to start
+      collisionSound.currentTime = 0;
     }
-    collisionSound.play(); // Play sound on collision
+    collisionSound.play();
     return true;
   }
   return false;
 }
 
-// ---- Game Loop ----
+
 function update(deltaTime)
 {
-  // // Random chance to change direction (you can adjust the probability)
-  // const randomChance = Math.random();
-  // if (randomChance < 0.02) // 2% chance per frame to change direction (can be adjusted)
-  // {
-  //   enemy.speedX = Math.random() < 0.5 ? 6 : -6;  // Randomly change horizontal direction
-  //   enemy.speedY = Math.random() < 0.5 ? 4 : -4;  // Randomly change vertical direction
-  // }
-
-  // Move the enemy
   enemy.x += enemy.speedX;
   enemy.y += enemy.speedY;
 
-  // Bounce the enemy off the canvas edges
+
   if (enemy.x < 0 || enemy.x + enemy.width > canvas.width)
   {
     enemy.speedX *= -1;
@@ -158,7 +142,7 @@ function update(deltaTime)
     enemy.speedY *= -1;
   }
 
-  // Move the bullets
+
   bullets.forEach((bullet, index) =>
   {
     bullet.x += bullet.vx;
@@ -168,11 +152,11 @@ function update(deltaTime)
     {
       score++;
       scoreEl.textContent = score;
-      bullets.splice(index, 1);  // Remove the bullet after it hits the enemy
+      bullets.splice(index, 1);
     }
   });
 
-  // Remove bullets that go off-screen
+
   bullets = bullets.filter((bullet) => bullet.x + bullet.width > 0 &&
     bullet.x < canvas.width &&
     bullet.y + bullet.height > 0 &&
@@ -180,23 +164,23 @@ function update(deltaTime)
 }
 
 
-// Draw everything on the canvas
+
 function draw()
 {
-  // Clear the canvas
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw the enemy image
+
   ctx.drawImage(enemyImage, enemy.x, enemy.y, enemy.width, enemy.height);
 
-  // Draw bullets as images
+
   bullets.forEach((bullet) =>
   {
     ctx.drawImage(bulletImage, bullet.x, bullet.y, bullet.width, bullet.height);
   });
 }
 
-// Main game loop with requestAnimationFrame
+
 function gameLoop(timestamp)
 {
   const deltaTime = timestamp - lastTime;
@@ -208,5 +192,5 @@ function gameLoop(timestamp)
   requestAnimationFrame(gameLoop);
 }
 
-// Start the game loop
+
 requestAnimationFrame(gameLoop);
