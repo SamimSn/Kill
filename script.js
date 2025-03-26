@@ -1,20 +1,3 @@
-let element = document.documentElement; // Use the whole document as the element
-
-// Check if the browser supports the Fullscreen API
-if (element.requestFullscreen)
-{
-  element.requestFullscreen();
-} else if (element.mozRequestFullScreen)
-{ // Firefox
-  element.mozRequestFullScreen();
-} else if (element.webkitRequestFullscreen)
-{ // Chrome, Safari, Opera
-  element.webkitRequestFullscreen();
-} else if (element.msRequestFullscreen)
-{ // IE/Edge
-  element.msRequestFullscreen();
-}
-
 // ---- Global Variables & Setup ----
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -54,12 +37,19 @@ let lastTime = 0; // Time for animation
 // Load collision sound
 const collisionSound = new Audio("collision-sound.mp3"); // Path to your sound file
 
-// ---- Event Listeners ----
-canvas.addEventListener("click", (event) =>
-{
-  fireBullet(event);
-  rotateGun(event);
+// Add a cooldown time (in milliseconds)
+const cooldownTime = 500; // 500ms delay between shots
+let lastFireTime = 0;
+
+canvas.addEventListener("click", (event) => {
+  const currentTime = Date.now();
+  if (currentTime - lastFireTime >= cooldownTime) {
+    fireBullet(event);
+    rotateGun(event);
+    lastFireTime = currentTime;  // Update the last fire time
+  }
 });
+
 
 // Check for landscape orientation
 function checkOrientation()
