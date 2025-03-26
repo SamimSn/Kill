@@ -6,7 +6,7 @@
   <title>Gun Shooter Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body style="display: flex;">  
+<body style="display: flex; justify-content: space-between;">  
 
   <div id="gameContainer">
     <canvas id="gameCanvas" width="700" height="300"></canvas>
@@ -15,7 +15,10 @@
     </div>
   </div>
 
-  <div id="scoreContainer">امتیاز: <span id="score">0</span></div>
+  <div>
+    <div id="scoreContainer">امتیاز</div>
+    <span id="score">0</span>
+  </div>
 
   <script src="script.js"></script>
 </body>
