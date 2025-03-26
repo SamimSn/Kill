@@ -1,3 +1,20 @@
+let element = document.documentElement; // Use the whole document as the element
+
+// Check if the browser supports the Fullscreen API
+if (element.requestFullscreen)
+{
+  element.requestFullscreen();
+} else if (element.mozRequestFullScreen)
+{ // Firefox
+  element.mozRequestFullScreen();
+} else if (element.webkitRequestFullscreen)
+{ // Chrome, Safari, Opera
+  element.webkitRequestFullscreen();
+} else if (element.msRequestFullscreen)
+{ // IE/Edge
+  element.msRequestFullscreen();
+}
+
 // ---- Global Variables & Setup ----
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -38,17 +55,21 @@ let lastTime = 0; // Time for animation
 const collisionSound = new Audio("collision-sound.mp3"); // Path to your sound file
 
 // ---- Event Listeners ----
-canvas.addEventListener("click", (event) => {
+canvas.addEventListener("click", (event) =>
+{
   fireBullet(event);
   rotateGun(event);
 });
 
 // Check for landscape orientation
-function checkOrientation() {
-  if (window.innerHeight > window.innerWidth) {
+function checkOrientation()
+{
+  if (window.innerHeight > window.innerWidth)
+  {
     document.getElementById("gameContainer").style.display = "none";
     alert("Please rotate your device to landscape mode to play the game.");
-  } else {
+  } else
+  {
     document.getElementById("gameContainer").style.display = "inline-block";
   }
 }
@@ -61,7 +82,8 @@ checkOrientation();
 
 // ---- Functions ----
 
-function fireBullet(event) {
+function fireBullet(event)
+{
   const rect = canvas.getBoundingClientRect();
   const mouseX = event.clientX - rect.left;
   const mouseY = event.clientY - rect.top;
@@ -87,7 +109,8 @@ function fireBullet(event) {
   });
 }
 
-function rotateGun(event) {
+function rotateGun(event)
+{
   const rect = canvas.getBoundingClientRect();
   const mouseX = event.clientX - rect.left;
   const mouseY = event.clientY - rect.top;
@@ -99,44 +122,52 @@ function rotateGun(event) {
   const angle = Math.atan2(mouseY - gunY, mouseX - gunX);
 
   // Set the rotation for the gun container
-  gunContainer.style.transform = `rotate(${angle+45}rad)`;
+  gunContainer.style.transform = `rotate(${angle + 45}rad)`;
 }
 
 // Collision detection function
-function isColliding(a, b) {
+function isColliding(a, b)
+{
   if (a.x < b.x + b.width &&
-      a.x + a.width > b.x &&
-      a.y < b.y + b.height &&
-      a.y + a.height > b.y) {
-        if (!collisionSound.paused) {
-          collisionSound.currentTime = 0; // Reset sound to start
-        }
-        collisionSound.play(); // Play sound on collision
+    a.x + a.width > b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height > b.y)
+  {
+    if (!collisionSound.paused)
+    {
+      collisionSound.currentTime = 0; // Reset sound to start
+    }
+    collisionSound.play(); // Play sound on collision
     return true;
   }
   return false;
 }
 
 // ---- Game Loop ----
-function update(deltaTime) {
+function update(deltaTime)
+{
   // Move the enemy
   enemy.x += enemy.speedX;
   enemy.y += enemy.speedY;
 
   // Bounce the enemy off the canvas edges
-  if (enemy.x < 0 || enemy.x + enemy.width > canvas.width) {
+  if (enemy.x < 0 || enemy.x + enemy.width > canvas.width)
+  {
     enemy.speedX *= -1;
   }
-  if (enemy.y < 0 || enemy.y + enemy.height > canvas.height) {
+  if (enemy.y < 0 || enemy.y + enemy.height > canvas.height)
+  {
     enemy.speedY *= -1;
   }
 
   // Move the bullets
-  bullets.forEach((bullet, index) => {
+  bullets.forEach((bullet, index) =>
+  {
     bullet.x += bullet.vx;
     bullet.y += bullet.vy;
-    
-    if (isColliding(bullet, enemy)) {
+
+    if (isColliding(bullet, enemy))
+    {
       score++;
       scoreEl.textContent = score;
       bullets.splice(index, 1);  // Remove the bullet after it hits the enemy
@@ -145,13 +176,14 @@ function update(deltaTime) {
 
   // Remove bullets that go off-screen
   bullets = bullets.filter((bullet) => bullet.x + bullet.width > 0 &&
-                                         bullet.x < canvas.width &&
-                                         bullet.y + bullet.height > 0 &&
-                                         bullet.y < canvas.height);
+    bullet.x < canvas.width &&
+    bullet.y + bullet.height > 0 &&
+    bullet.y < canvas.height);
 }
 
 // Draw everything on the canvas
-function draw() {
+function draw()
+{
   // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -159,13 +191,15 @@ function draw() {
   ctx.drawImage(enemyImage, enemy.x, enemy.y, enemy.width, enemy.height);
 
   // Draw bullets as images
-  bullets.forEach((bullet) => {
+  bullets.forEach((bullet) =>
+  {
     ctx.drawImage(bulletImage, bullet.x, bullet.y, bullet.width, bullet.height);
   });
 }
 
 // Main game loop with requestAnimationFrame
-function gameLoop(timestamp) {
+function gameLoop(timestamp)
+{
   const deltaTime = timestamp - lastTime;
   lastTime = timestamp;
 
