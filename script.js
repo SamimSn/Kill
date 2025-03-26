@@ -108,6 +108,7 @@ function isColliding(a, b) {
       a.x + a.width > b.x &&
       a.y < b.y + b.height &&
       a.y + a.height > b.y) {
+    collisionSound.pause()
     collisionSound.play(); // Play sound on collision
     return true;
   }
