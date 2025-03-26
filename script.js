@@ -23,8 +23,8 @@ let enemy = {
   y: 100,
   width: 60,
   height: 60,
-  speedX: 3, // horizontal speed
-  speedY: 2, // vertical speed
+  speedX: 6, // horizontal speed
+  speedY: 4, // vertical speed
 };
 
 let bullets = []; // Array to hold the bullets
@@ -34,11 +34,30 @@ let lastClickY = 0; // Last mouse Y position
 
 let lastTime = 0; // Time for animation
 
+// Load collision sound
+const collisionSound = new Audio("collision-sound.mp3"); // Path to your sound file
+
 // ---- Event Listeners ----
 canvas.addEventListener("click", (event) => {
   fireBullet(event);
   rotateGun(event);
 });
+
+// Check for landscape orientation
+function checkOrientation() {
+  if (window.innerHeight > window.innerWidth) {
+    document.getElementById("gameContainer").style.display = "none";
+    alert("Please rotate your device to landscape mode to play the game.");
+  } else {
+    document.getElementById("gameContainer").style.display = "inline-block";
+  }
+}
+
+// Listen for orientation changes
+window.addEventListener("orientationchange", checkOrientation);
+
+// Initial check when the page loads
+checkOrientation();
 
 // ---- Functions ----
 
@@ -85,10 +104,14 @@ function rotateGun(event) {
 
 // Collision detection function
 function isColliding(a, b) {
-  return a.x < b.x + b.width &&
-         a.x + a.width > b.x &&
-         a.y < b.y + b.height &&
-         a.y + a.height > b.y;
+  if (a.x < b.x + b.width &&
+      a.x + a.width > b.x &&
+      a.y < b.y + b.height &&
+      a.y + a.height > b.y) {
+    collisionSound.play(); // Play sound on collision
+    return true;
+  }
+  return false;
 }
 
 // ---- Game Loop ----
