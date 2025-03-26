@@ -38,7 +38,7 @@ let lastTime = 0; // Time for animation
 const collisionSound = new Audio("collision-sound.mp3"); // Path to your sound file
 
 // Add a cooldown time (in milliseconds)
-const cooldownTime = 500; // 500ms delay between shots
+const cooldownTime = 100; // 500ms delay between shots
 let lastFireTime = 0;
 
 canvas.addEventListener("click", (event) => {
