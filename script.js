@@ -21,8 +21,8 @@ enemyImage.src = "enemy.png"; // Load the enemy image
 let enemy = {
   x: 100,
   y: 100,
-  width: 60,
-  height: 60,
+  width: 100,
+  height: 100,
   speedX: 6, // horizontal speed
   speedY: 4, // vertical speed
 };
@@ -71,7 +71,7 @@ function fireBullet(event) {
 
   const angle = Math.atan2(mouseY - startY, mouseX - startX); // Calculate angle
 
-  const speed = 6;  // Bullet speed
+  const speed = 10;  // Bullet speed
 
   // Velocity in X and Y directions
   const vx = Math.cos(angle) * speed;
