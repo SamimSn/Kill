@@ -22,11 +22,6 @@ h1 {
   margin: 0 auto;
 }
 
-#scoreContainer {
-  font-size: 18px;
-  margin-top: 10px;
-}
-
 #gun {
   position: absolute;
   bottom: 20px;

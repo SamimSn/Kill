@@ -2,8 +2,17 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-const scoreEl = document.getElementById("score");
 let score = 0;
+
+
+const messages = [
+  "رحم کن بهش",
+  "ابوذر گوزو شد",
+  "باشه مادرشو گاییدی",
+  "خودت میدونی",
+  "فکنم خوشش اومده که هیچی نمیگه",
+  "ادامه بده پس :))",
+];
 
 
 const gunContainer = document.getElementById("gun");
@@ -127,40 +136,50 @@ function isColliding(a, b)
 }
 
 
-function update(deltaTime)
-{
+let collisionCount = 0; // Initialize the collision counter
+let messageIndex = 0; // Initialize the collision counter
+
+function update(deltaTime) {
   enemy.x += enemy.speedX;
   enemy.y += enemy.speedY;
 
-
-  if (enemy.x < 0 || enemy.x + enemy.width > canvas.width)
-  {
+  if (enemy.x < 0 || enemy.x + enemy.width > canvas.width) {
     enemy.speedX *= -1;
   }
-  if (enemy.y < 0 || enemy.y + enemy.height > canvas.height)
-  {
+  if (enemy.y < 0 || enemy.y + enemy.height > canvas.height) {
     enemy.speedY *= -1;
   }
 
-
-  bullets.forEach((bullet, index) =>
-  {
+  bullets.forEach((bullet, index) => {
     bullet.x += bullet.vx;
     bullet.y += bullet.vy;
 
-    if (isColliding(bullet, enemy))
-    {
+    if (isColliding(bullet, enemy)) {
+      collisionCount++;  // Increment collision counter
       score++;
-      scoreEl.textContent = score;
       bullets.splice(index, 1);
+
+      // Show a message every 5 collisions
+      if (collisionCount % 5 === 0) {
+        alert(messages[messageIndex]);
+
+        // Move to the next message in the array, but keep the last message if reached
+        if (messageIndex < messages.length - 1) {
+          messageIndex++;
+        } else {
+          messageIndex = messages.length - 1; // Keep the last message once it's reached
+        }
+      }
     }
   });
 
-
-  bullets = bullets.filter((bullet) => bullet.x + bullet.width > 0 &&
-    bullet.x < canvas.width &&
-    bullet.y + bullet.height > 0 &&
-    bullet.y < canvas.height);
+  bullets = bullets.filter(
+    (bullet) =>
+      bullet.x + bullet.width > 0 &&
+      bullet.x < canvas.width &&
+      bullet.y + bullet.height > 0 &&
+      bullet.y < canvas.height
+  );
 }
 
 
