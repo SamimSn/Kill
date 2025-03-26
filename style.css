@@ -16,8 +16,8 @@ h1 {
 }
 
 #gameCanvas {
-  background-color: #000;
-  border: 2px solid #fff;
+  background-color: #ffffff;
+  border: 2px solid #000;
   display: block;
   margin: 0 auto;
 }
